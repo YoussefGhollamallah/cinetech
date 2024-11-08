@@ -9,6 +9,8 @@ class Routeur
         "404Erreur" => ["controller" => "HomeController", "method" => "erreur404"],
         "register" => ["controller" => "HomeController", "method" => "register"],
         "login" => ["controller" => "HomeController", "method" => "login"],
+        "film" => ["controller" => "HomeController", "method" => "film"],
+        "serie" => ["controller" => "HomeController", "method" => "serie"],
     ];
 
     public function __construct($request)
