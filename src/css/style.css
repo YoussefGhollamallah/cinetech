@@ -1,0 +1,78 @@
+*
+{
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+main 
+{
+    background: linear-gradient(158deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 16%, rgba(0,212,255,1) 100%);
+    height: 100vh;
+}
+
+h1 
+{
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 3em;
+}
+
+.p-index 
+{
+    color: white;
+    text-align: center;
+
+    font-size: 1.5em;
+}
+
+
+/* register */
+
+section {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    min-height: 700px;
+}
+
+.register
+{
+    border: 2px solid #000; /* Increased border width */
+    background-color: aqua;
+    font-family: Arial, sans-serif;
+    width: 90%;
+    border-radius: 10px; /* Added border radius */
+    padding: 20px; /* Added padding */
+}
+
+.register div
+{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    
+}
+
+.register div input
+{
+    padding: 10px;
+}
+
+input[type="submit"]
+{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover
+{
+    background-color: #45a049;
+}
