@@ -1,10 +1,18 @@
 <section>
     <h1>Login</h1>
-    <form action="login" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="submit" value="Login">
+    <form action="" class="register" method="post">
+        <div>
+            <input type="text" name="username" placeholder="Username" required>
+        </div>
+
+        <div>
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+
+        <div>
+            <input type="submit" value="Login">
+        </div>
     </form>
 
-    <p>Don't have an account? <a href="register">Register</a></p>
+    <p>Vous n'avez pas de compte ? <a href="register">Inscrivez-vous</a></p>	
 </section>
