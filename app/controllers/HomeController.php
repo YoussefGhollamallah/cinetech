@@ -36,5 +36,21 @@ class HomeController
         $view->render();
     }
 
-    
+    public function film()
+    {
+        $title = "Films";
+        $view = new View("film");
+        $view->setVars(["title" => $title]);
+        $view->render();
+    }
+
+    public function serie()
+    {
+        $title = "Série";
+        $view = new View("serie");
+        $view->setVars(["title" => $title]);
+        $view->render();
+    }
+
+
 }
