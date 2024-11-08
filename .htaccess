@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Bloquer les accès directs aux fichiers `.php` dans le dossier `src/models`
+RewriteCond %{REQUEST_URI} ^/src/models/.*\.php$ [NC]
+RewriteRule ^.*$ index.php?r=404Erreur [L]
+
+# Rediriger les URLs de pages spécifiques vers leurs contrôleurs respectifs
+RewriteRule ^(index|login|register|film|serie)$ index.php?r=$1 [QSA,L]
+
+# Rediriger toute autre URL vers la page 404 si ce n’est pas un fichier ou un dossier valide
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ index.php?r=404Erreur [L]
