@@ -27,6 +27,25 @@ class ModelUser
         }
     }
 
+    public function login($email, $password)
+    {
+        try {
+            $query = "SELECT * FROM user WHERE email = :email";
+            $result = $this->connexion->prepare($query);
+            $result->execute(['email' => $email]);
+            $user = $result->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && password_verify($password, $user['password'])) {
+                $_SESSION['user'] = $user['id'];
+                return $user;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la connexion : " . $e->getMessage());
+        }
+    }
+
     public function emailExists($email)
     {
         try {
