@@ -14,5 +14,11 @@ class UserController
         $result = $this->ModelUser->register($firstame, $lastname, $email, $password);
         return $result;
     }
+
+    public function login($email, $password)
+    {
+        $result = $this->ModelUser->login($email, $password);
+        return $result;
+    }
     
 }
