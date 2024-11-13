@@ -31,7 +31,7 @@ if(isset($_SESSION['user'])) {
     <h1>Login</h1>
     <form action="" class="register" method="post">
         <div>
-            <input type="text" name="username" placeholder="Username" required>
+            <input type="text" name="username" placeholder="Email" required>
         </div>
 
         <div>
