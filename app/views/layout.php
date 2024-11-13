@@ -61,20 +61,11 @@ $url = API_FILM_TENDANCE_URL;
         </nav>
     </header>
 
-    <div class="banner">
+    <h1>Bienvenue sur Cinetech</h1>
 
-        <?php if(isset($_SESSION["user"])) :?>
-            <p>Bonjour <?php echo $_SESSION["user"]["firstname"] . " " . $_SESSION["user"]["lastname"]; ?></p>
-        <?php else: ?>
-            <p>Bienvenue sur Cinetech</p>
-        <?php endif; ?>
-
-    </div>
-    
     <main>
         <?php echo $contentPage; ?>  
     </main>
-
 
 </body>
 </html>
