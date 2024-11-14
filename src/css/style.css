@@ -165,3 +165,70 @@ input[type="button"], input[type="submit"] {
 input[type="button"]:hover, input[type="submit"]:hover {
     background-color: #45a049;
 }
+
+#card-detail {
+    display: flex;
+    gap: 20px;
+    margin: 20px;
+    max-width: 1080px;
+}
+
+#card-detail img {
+    width: 300px;
+    border-radius: 10px;
+}
+
+#card-detail h2 {
+    text-align: center;
+    font-size: 2em;
+    padding: 20px;
+}
+
+#card-detail p {
+    text-align: center;
+    font-size: 1.5em;
+    padding: 20px;
+}
+
+#detail-info {
+    background-color: #c9bdbd;
+    border-radius: 10px;
+}
+
+.actors {
+    margin-top: 20px;
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 1080px;
+    margin-bottom: 20px;
+}
+
+.carousel {
+    display: flex;
+    gap: 20px;
+    animation: scroll 35s linear infinite;
+}
+
+.slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    text-align: center;
+}
+
+.slide img {
+    border-radius: 5px;
+    width: 50px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
