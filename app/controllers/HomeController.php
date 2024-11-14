@@ -1,4 +1,5 @@
 <?php
+
 class HomeController
 {
     public function home()
@@ -43,7 +44,72 @@ class HomeController
         $this->renderView("profile", ["title" => $title]);
     }
 
-
+    public function detail($id, $type)
+    {
+        // Vérification de la validité des paramètres
+        if (!is_numeric($id) || !in_array($type, ['film', 'serie'])) {
+            $this->erreur404();
+            return;
+        }
+    
+        // Construire l'URL API en fonction du type
+        $mediaUrl = ($type === 'film') 
+            ? "https://api.themoviedb.org/3/movie/$id?api_key=ea22993e5b3ec7acfb93c59ddf265f8c&language=fr-FR"
+            : "https://api.themoviedb.org/3/tv/$id?api_key=ea22993e5b3ec7acfb93c59ddf265f8c&language=fr-FR";
+    
+        // Utilisation de cURL pour récupérer les données de l'API
+        $ch = curl_init($mediaUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);  // Timeout de 10 secondes
+        $response = curl_exec($ch);
+    
+        if (curl_errno($ch)) {
+            // En cas d'erreur cURL
+            echo 'Erreur cURL: ' . curl_error($ch);
+            $this->erreur404();
+            return;
+        }
+    
+        curl_close($ch);
+    
+        // Décoder la réponse JSON de l'API
+        $media = json_decode($response, true);
+    
+        if ($media && isset($media['id'])) {
+            // URL pour les crédits (acteurs et réalisateurs)
+            $creditsUrl = ($type === 'film')
+                ? "https://api.themoviedb.org/3/movie/$id/credits?api_key=ea22993e5b3ec7acfb93c59ddf265f8c&language=fr-FR"
+                : "https://api.themoviedb.org/3/tv/$id/credits?api_key=ea22993e5b3ec7acfb93c59ddf265f8c&language=fr-FR";
+    
+            // Utilisation de cURL pour récupérer les crédits
+            $ch = curl_init($creditsUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Timeout de 10 secondes
+            $creditsResponse = curl_exec($ch);
+    
+            if (curl_errno($ch)) {
+                echo 'Erreur cURL: ' . curl_error($ch);
+                $this->erreur404();
+                return;
+            }
+    
+            curl_close($ch);
+    
+            // Décoder la réponse JSON des crédits
+            $credits = json_decode($creditsResponse, true);
+    
+            // Ajouter les crédits (acteurs et réalisateurs) au tableau $media
+            $media['cast'] = $credits['cast'] ?? [];
+            $media['crew'] = $credits['crew'] ?? [];
+    
+            // Afficher la vue de détail
+            $this->renderView("detail", ["media" => $media]);
+        } else {
+            // Si les détails ne sont pas trouvés, afficher une erreur 404
+            $this->erreur404();
+        }
+    }
+    
 
     public function renderView($viewName, $vars = [])
     {
