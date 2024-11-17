@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Classes;
+
 class Routeur
 {
     private $request;
@@ -25,12 +27,12 @@ class Routeur
         $request = $this->request;
         
         if (array_key_exists($request, $this->routes)) {
-            $controller = $this->routes[$request]["controller"];
+            $controller = "App\Controllers\\" . $this->routes[$request]["controller"];
             $method = $this->routes[$request]["method"];
         
             if (class_exists($controller)) {
                 $controllerInstance = new $controller();
-        
+
                 // Gestion de la route 'detail' avec paramètres extraits de l'URL
                 if ($request === 'detail') {
                     // Extraire les paramètres de l'URL
@@ -47,8 +49,6 @@ class Routeur
                             return;
                         }
                     }
-            
-                
                 } else {
                     if (method_exists($controllerInstance, $method)) {
                         $controllerInstance->$method();
