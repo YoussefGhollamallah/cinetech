@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Classes\View;
+
 class HomeController
 {
     public function home()
@@ -103,7 +107,7 @@ class HomeController
             $media['crew'] = $credits['crew'] ?? [];
     
             // Afficher la vue de détail
-            $this->renderView("detail", ["media" => $media]);
+            $this->renderView("detail", ["media" => $media,"type" => $type]);
         } else {
             // Si les détails ne sont pas trouvés, afficher une erreur 404
             $this->erreur404();
