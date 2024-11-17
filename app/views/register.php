@@ -1,5 +1,7 @@
 <?php
 
+use App\Controllers\UserController;
+
 $user = new UserController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
