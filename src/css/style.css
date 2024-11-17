@@ -232,3 +232,73 @@ input[type="button"]:hover, input[type="submit"]:hover {
     0% { transform: translateX(0); }
     100% { transform: translateX(-100%); }
 }
+
+
+/* commentaire */
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+
+/* media tablet */
+
+@media screen and (max-width: 1080px) {
+    #card-detail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    #img-detail
+    {
+        width: 90%;
+    }
+
+    #img-detail img {
+        width: 100%;
+        height: auto;
+    }
+
+    .actors {
+        width: 90%;
+    }
+    
+    .details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #comments {
+        width: 90%;
+    }
+
+    #add-comment {
+        width: 90%;
+    }
+
+    #add-comment form {
+        padding: 20px;
+    }
+
+    textarea {
+        width: 100%;
+        height: 150px;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        font-size: 16px;
+    }
+
+}
