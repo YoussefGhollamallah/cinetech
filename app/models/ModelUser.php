@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use config\Connexion;
+
 class ModelUser
 {
     private $connexion;
@@ -8,7 +12,7 @@ class ModelUser
     {
         $conn = new Connexion();
         $this->connexion = $conn->connexionBDD();
-        $this->connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
     }
 
@@ -22,8 +26,8 @@ class ModelUser
                 $requete->execute([ $firstname, $lastname, $email, $password ]);
                 return 'Inscription réussie';
             }
-        } catch (Exception $e) {
-            throw new Exception("Erreur lors de l'inscription : " . $e->getMessage());
+        } catch (\Exception $e) {
+            throw new \Exception("Erreur lors de l'inscription : " . $e->getMessage());
         }
     }
 
@@ -33,7 +37,7 @@ class ModelUser
             $query = "SELECT * FROM user WHERE email = :email";
             $result = $this->connexion->prepare($query);
             $result->execute(['email' => $email]);
-            $user = $result->fetch(PDO::FETCH_ASSOC);
+            $user = $result->fetch(\PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['user'] = $user['id'];
@@ -41,8 +45,8 @@ class ModelUser
             } else {
                 return false;
             }
-        } catch (PDOException $e) {
-            throw new Exception("Erreur lors de la connexion : " . $e->getMessage());
+        } catch (\PDOException $e) {
+            throw new \Exception("Erreur lors de la connexion : " . $e->getMessage());
         }
     }
 
@@ -58,7 +62,7 @@ class ModelUser
                 return false;
             }
        
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo "Erreur lors de la vérification de l'email : " . $e->getMessage();
             return false;
         }
