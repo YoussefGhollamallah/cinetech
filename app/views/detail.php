@@ -1,23 +1,20 @@
 <?php
-
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 use App\Controllers\commentaireController;
 
-// Instance de la classe Commentaire
 $commentaire = new commentaireController();
+$id_user = $_SESSION['user']['id_user'] ?? null;
+$id_media = $media['id'] ?? null;
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Vérifie si l'utilisateur est connecté
-    if (isset($_SESSION['user']['id_user'])) {
-        $id_user = $_SESSION['user']['id_user']; // ID de l'utilisateur connecté
+// Ajout d'un commentaire
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['content'], $_POST['id_media'])) {
+    if ($id_user) {
         $content = htmlspecialchars($_POST['content']);
-        $id_media = htmlspecialchars($_POST['id_media']);
-        $type = htmlspecialchars($_POST['type']);
-
         try {
-            $message = $commentaire->addComment(null, $content, $id_user, $id_media);
+            $message = $commentaire->addComment($content, $id_user, $id_media);
             echo "<p style='color: green;'>$message</p>";
         } catch (Exception $e) {
             echo "<p style='color: red;'>Erreur : " . htmlspecialchars($e->getMessage()) . "</p>";
@@ -27,30 +24,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Récupération des commentaires pour ce média
-$comments = $commentaire->getComments($media['id'], $type);
+// Suppression d'un commentaire
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_id'])) {
+    if ($id_user) {
+        $id_commentaire = (int)$_POST['comment_id'];
+        $comment = $commentaire->getCommentById($id_commentaire);
+        if ($comment && $comment['id_user'] === $id_user) {
+            try {
+                $message = $commentaire->deleteCommentByUser($id_commentaire, $id_user);
+                echo "<p style='color: green;'>$message</p>";
+            } catch (Exception $e) {
+                echo "<p style='color: red;'>Erreur : " . htmlspecialchars($e->getMessage()) . "</p>";
+            }
+        } else {
+            echo "<p style='color: red;'>Vous ne pouvez supprimer que vos propres commentaires.</p>";
+        }
+    } else {
+        echo "<p style='color: red;'>Vous devez être connecté pour supprimer un commentaire.</p>";
+    }
+}
 
+$comments = $commentaire->getComments($id_media);
+
+// Tableaux des jours et mois en français
+$jours = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+$mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 ?>
 
 <section class="details">
     <div id="card-detail">
         <div id="img-detail">
-            <img src="https://image.tmdb.org/t/p/w300/<?= $media['poster_path'] ?>" alt="<?= htmlspecialchars($media['title'] ?? $media['name']) ?>">
+            <img src="https://image.tmdb.org/t/p/w300/<?= htmlspecialchars($media['poster_path'] ?? '') ?>" alt="<?= htmlspecialchars($media['title'] ?? $media['name'] ?? 'Titre inconnu') ?>">
         </div>
         <div id="detail-info">
-            <h2><?= htmlspecialchars($media['title'] ?? $media['name']) ?></h2>
-            <p><?= htmlspecialchars($media['overview']) ?></p>
+            <h2><?= htmlspecialchars($media['title'] ?? $media['name'] ?? 'Titre inconnu') ?></h2>
+            <p><?= htmlspecialchars($media['overview'] ?? 'Aucune description disponible') ?></p>
             <p><?= isset($media['title']) ? 'Film' : 'Série' ?></p>
 
             <?php if (isset($media['release_date'])): ?>
-                <p><strong>Date de sortie :</strong> <?= $media['release_date'] ?></p>
+                <p><strong>Date de sortie :</strong> <?= htmlspecialchars($media['release_date'] ?? 'Date inconnue') ?></p>
             <?php elseif (isset($media['first_air_date'])): ?>
-                <p><strong>Date de première diffusion :</strong> <?= $media['first_air_date'] ?></p>
+                <p><strong>Date de première diffusion :</strong> <?= htmlspecialchars($media['first_air_date'] ?? 'Date inconnue') ?></p>
             <?php endif; ?>
         </div>
     </div>
 
-    <!-- Carrousel des acteurs -->
     <div class="actors">
         <h3>Acteurs principaux :</h3>
         <?php if (!empty($media['cast'])): ?>
@@ -58,8 +76,8 @@ $comments = $commentaire->getComments($media['id'], $type);
                 <?php foreach ($media['cast'] as $actor): ?>
                     <?php if (isset($actor['profile_path']) && $actor['profile_path']): ?>
                         <div class="slide">
-                            <img src="https://image.tmdb.org/t/p/w92/<?= $actor['profile_path'] ?>" alt="<?= htmlspecialchars($actor['name']) ?>">
-                            <p><?= htmlspecialchars($actor['name']) ?></p>
+                            <img src="https://image.tmdb.org/t/p/w92/<?= htmlspecialchars($actor['profile_path'] ?? '') ?>" alt="<?= htmlspecialchars($actor['name'] ?? 'Acteur inconnu') ?>">
+                            <p><?= htmlspecialchars($actor['name'] ?? 'Acteur inconnu') ?></p>
                         </div>
                     <?php endif; ?>
                 <?php endforeach; ?>
@@ -69,7 +87,6 @@ $comments = $commentaire->getComments($media['id'], $type);
         <?php endif; ?>
     </div>
 
-    <!-- Affichage du réalisateur avec photo uniquement -->
     <div class="directors">
         <h3>Réalisateur :</h3>
         <?php if (isset($media['crew'])): ?>
@@ -77,8 +94,8 @@ $comments = $commentaire->getComments($media['id'], $type);
                 <?php foreach ($media['crew'] as $crew): ?>
                     <?php if ($crew['job'] === 'Director' && isset($crew['profile_path']) && $crew['profile_path']): ?>
                         <li>
-                            <img src="https://image.tmdb.org/t/p/w92/<?= $crew['profile_path'] ?>" alt="<?= htmlspecialchars($crew['name']) ?>">
-                            <p><?= htmlspecialchars($crew['name']) ?></p>
+                            <img src="https://image.tmdb.org/t/p/w92/<?= htmlspecialchars($crew['profile_path'] ?? '') ?>" alt="<?= htmlspecialchars($crew['name'] ?? 'Réalisateur inconnu') ?>">
+                            <p><?= htmlspecialchars($crew['name'] ?? 'Réalisateur inconnu') ?></p>
                         </li>
                     <?php endif; ?>
                 <?php endforeach; ?>
@@ -88,29 +105,43 @@ $comments = $commentaire->getComments($media['id'], $type);
         <?php endif; ?>
     </div>
 
-      <!-- Affichage des commentaires -->
-      <div id="comments">
-        <h3>Commentaires</h3>
+    <h3>Commentaires</h3>
+    <section id="comments">
         <?php if (!empty($comments)): ?>
             <?php foreach ($comments as $comment): ?>
+                <?php 
+                    $date = new DateTime($comment['created_at']);
+                    $jourSemaine = $jours[$date->format('w')];
+                    $moisFrancais = $mois[$date->format('n') - 1];
+                    $formattedDate = ucfirst($jourSemaine) . ' ' . $date->format('d') . ' ' . $moisFrancais . ' ' . $date->format('Y'). " à " . $date->format('H:i:s');
+                ?>
                 <div class="comment">
-                    <p><strong><?= htmlspecialchars($comment['firstname'] . ' ' . $comment['lastname']) ?></strong> - <?= htmlspecialchars($comment['created_at']) ?></p>
-                    <p><?= htmlspecialchars($comment['content']) ?></p>
+                    <p><?= "Message de  <strong> " . ucfirst(htmlspecialchars($comment["firstname"])) ." " . strtoupper(htmlspecialchars($comment["lastname"])) . " </strong> : " . htmlspecialchars($comment['content']) ?></p>
+                    <p>Posté le <?= htmlspecialchars($formattedDate) ?></p>
+                    <?php if ($id_user === $comment['id_user']): ?>
+                        <form action="" method="POST">
+                            <input type="hidden" name="comment_id" value="<?= htmlspecialchars($comment['id_commentaire']) ?>">
+                            <button class="deletBtn" type="submit">Supprimer</button>
+                        </form>
+                    <?php endif; ?>
                 </div>
+                <br>
+                <hr>
+                <br>
             <?php endforeach; ?>
         <?php else: ?>
             <p>Aucun commentaire pour l'instant.</p>
         <?php endif; ?>
-    </div>
+    </section>
 
-    <!-- Formulaire pour ajouter un commentaire -->
-    <?php if (isset($_SESSION['user']['id_user'])): ?>
+    <br>
+
+    <?php if (isset($_SESSION['user']) && isset($_SESSION['user']['id_user'])): ?>
         <section id="add-comment">
             <h3>Laisser un commentaire</h3>
             <form action="" method="POST">
-                <textarea name="content" rows="50"  placeholder="Votre commentaire..." required></textarea>
-                <input type="hidden" name="id_media" value="<?= htmlspecialchars($media['id']) ?>">
-                <input type="hidden" name="type" value="<?= htmlspecialchars($type) ?>">
+                <textarea name="content" rows="5" placeholder="Votre commentaire..." required></textarea>
+                <input type="hidden" name="id_media" value="<?= htmlspecialchars($media['id'] ?? '') ?>">
                 <button type="submit">Envoyer</button>
             </form>
         </section>
@@ -119,9 +150,9 @@ $comments = $commentaire->getComments($media['id'], $type);
     <?php endif; ?>
 </section>
 
-
 <script>
-    // Dupliquer les slides pour un défilement continu
     const carousel = document.querySelector('.carousel');
-    carousel.innerHTML += carousel.innerHTML;
+    if (carousel) {
+        carousel.innerHTML += carousel.innerHTML;
+    }
 </script>
