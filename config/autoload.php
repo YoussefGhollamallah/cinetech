@@ -5,7 +5,13 @@ class Autoload
     public static function start()
     {
 
-        spl_autoload_register(array(__CLASS__, 'autoload'));
+        spl_autoload_register(function ($class) {
+            $classPath = str_replace('\\', '/', $class) . '.php';
+            if (file_exists($classPath)) {
+                require_once $classPath;
+            }
+        });
+        
         $root = $_SERVER['DOCUMENT_ROOT'];
         $host = $_SERVER['HTTP_HOST'];
 
