@@ -24,6 +24,12 @@ class HomeController
         $this->renderView("register", ["title" => $title]);
     }
 
+    public function favori()
+    {
+        $title = "Favoris";
+        $this->renderView("favori", ["title" => $title]);
+    }
+
     public function login()
     {
         $title = "Connexion";
