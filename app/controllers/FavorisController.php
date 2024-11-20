@@ -33,4 +33,21 @@ class FavorisController
             return ["success" => false, "message" => $e->getMessage()];
         }
     }
+
+    public function addFavori($userId, $elementId, $elementType, $title, $posterPath)
+    {
+        try {
+            // Vérifie si le favori existe déjà
+            if ($this->ModelFavori->favoriExists($userId, $elementId, $elementType)) {
+                return ["success" => false, "message" => "Cet élément est déjà dans vos favoris."];
+            }
+
+            // Ajout du favori dans la base de données
+            $this->ModelFavori->addFavori($userId, $elementId, $elementType, $title, $posterPath);
+            return ["success" => true, "message" => "Favori ajouté avec succès."];
+        } catch (\Exception $e) {
+            return ["success" => false, "message" => $e->getMessage()];
+        }
+    }
+
 }
