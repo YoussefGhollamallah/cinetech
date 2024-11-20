@@ -49,6 +49,30 @@ class ModelFavori
         }
     }
 
-    
+    public function favoriExists(int $userId, int $mediaId, string $type): bool
+{
+    $query = "SELECT COUNT(*) FROM favoris WHERE user_id = :userId AND element_id = :mediaId AND element_type = :type";
+    $stmt = $this->connexion->prepare($query);
+    $stmt->execute([
+        'userId' => $userId,
+        'mediaId' => $mediaId,
+        'type' => $type
+    ]);
+    return $stmt->fetchColumn() > 0;
+}
+
+public function addFavori(int $userId, int $mediaId, string $type, string $title, ?string $posterPath): bool
+{
+    $query = "INSERT INTO favoris (user_id, element_id, element_type, title, poster_patch) VALUES (:userId, :mediaId, :type, :title, :posterPath)";
+    $stmt = $this->connexion->prepare($query);
+    return $stmt->execute([
+        'userId' => $userId,
+        'mediaId' => $mediaId,
+        'type' => $type,
+        'title' => $title,
+        'posterPath' => $posterPath
+    ]);
+}
+
 
 }
