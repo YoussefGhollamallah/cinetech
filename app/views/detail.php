@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 use App\Controllers\commentaireController;
+use App\Controllers\FavorisController;
 
 $commentaire = new commentaireController();
 $id_user = $_SESSION['user']['id_user'] ?? null;
@@ -49,7 +50,30 @@ $comments = $commentaire->getComments($id_media);
 // Tableaux des jours et mois en français
 $jours = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
 $mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_favori'])) {
+    $id_user = $_SESSION['user']['id_user'] ?? null;
+    $id_media = $_POST['id_media'] ?? null;
+    $title = $_POST['title'] ?? null;
+    $poster_path = $_POST['poster_path'] ?? null;
+    $type_media = $_POST['type_media'] ?? null;
+
+    if ($id_user && $id_media && $title && $type_media) {
+        // Appel du contrôleur pour ajouter un favori
+        $favorisController = new FavorisController();
+        $response = $favorisController->addFavori($id_user, $id_media, $type_media, $title, $poster_path);
+        
+        if ($response['success']) {
+            echo "<p style='color: green;'>Votre favori a été ajouté avec succès !</p>";
+        } else {
+            echo "<p style='color: red;'>Erreur : " . htmlspecialchars($response['message']) . "</p>";
+        }
+    } else {
+        echo "<p style='color: red;'>Tous les champs sont requis.</p>";
+    }
+}
 ?>
+
 
 <section class="details">
     <div id="card-detail">
@@ -135,6 +159,20 @@ $mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aoû
     </section>
 
     <br>
+    <!-- Formulaire pour ajouter aux favoris -->
+<?php if (isset($_SESSION['user']) && isset($_SESSION['user']['id_user'])): ?>
+    <form action="" method="POST">
+        <input type="hidden" name="add_favori" value="1">
+        <input type="hidden" name="id_media" value="<?= $id_media ?>">
+        <input type="hidden" name="title" value="<?= htmlspecialchars($media['title'] ?? $media['name'] ?? 'Titre inconnu') ?>">
+        <input type="hidden" name="poster_path" value="<?= htmlspecialchars($media['poster_path'] ?? '') ?>">
+        <input type="hidden" name="type_media" value="<?= isset($media['title']) ? 'movie' : 'tv' ?>">
+        <button type="submit">Ajouter aux favoris</button>
+    </form>
+<?php else: ?>
+    <p>Veuillez <a href="<?= HOST ?>login">vous connecter</a> pour ajouter aux favoris.</p>
+<?php endif; ?>
+
 
     <?php if (isset($_SESSION['user']) && isset($_SESSION['user']['id_user'])): ?>
         <section id="add-comment">
