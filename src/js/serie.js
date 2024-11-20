@@ -22,12 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     serieElement.innerHTML = `
                         <img src="${imageUrl}" alt="Affiche de la série ${serie.name}">
                         <h2>${serie.name}</h2>
+                        <button onclick="showDetail(${serie.id})">Détail</button>
                     `;
 
-                    // Ajouter un gestionnaire d'événement pour rediriger vers la page de détails de la série
-                    serieElement.addEventListener('click', function() {
-                        window.location.href = `detail/${serie.id}/serie`; // Redirection vers la page de détail
-                    });
 
                     // Ajouter l'élément de la série au conteneur
                     serieDetailsContainer.appendChild(serieElement);
@@ -40,3 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Erreur lors de la récupération des séries populaires:', error);
         });
 });
+
+function showDetail(filmId) {
+    window.location.href = `detail/${filmId}/serie`;
+}

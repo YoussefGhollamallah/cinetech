@@ -114,3 +114,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Récupérer les films populaires
     fetchMovies();
 });
+

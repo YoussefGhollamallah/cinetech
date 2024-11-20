@@ -22,12 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     filmElement.innerHTML = `
                         <img src="${imageUrl}" alt="Affiche du film ${film.title}">
                         <h2>${film.title}</h2>
+                        <button onclick="showDetail(${film.id})">Détail</button>
                     `;
 
-                    // Ajouter un gestionnaire d'événement pour rediriger vers la page de détails du film
-                    filmElement.addEventListener('click', function() {
-                        window.location.href = `detail/${film.id}/film`;
-                    });
 
                     // Ajouter l'élément du film au conteneur
                     filmDetailsContainer.appendChild(filmElement);
@@ -40,3 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Erreur lors de la récupération des films populaires:', error);
         });
 });
+
+function showDetail(filmId) {
+    window.location.href = `detail/${filmId}/film`;
+}

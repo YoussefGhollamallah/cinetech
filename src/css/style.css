@@ -138,7 +138,7 @@ form {
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    background-color: bisque;
+    background-color: wheat;
     margin-bottom: 20px;
     border-radius: 10px;
 }
@@ -246,6 +246,25 @@ input[type="button"]:hover, input[type="submit"]:hover {
 }
 
 
+/* favori */
+
+#favori > ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-favori {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: wheat;
+    border-radius: 10px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5);
+}
+
 /* commentaire */
 
 .comment {
@@ -277,6 +296,10 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
 }
 
 .deletBtn {
