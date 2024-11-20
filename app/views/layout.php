@@ -48,6 +48,7 @@ $url = API_FILM_TENDANCE_URL;
 
             <?php if (isset($_SESSION['user'])): ?>
                 <ul class="navLink">
+                    <li><a class="navItems" href="<?php echo HOST; ?>favori">Favoris</a></li>
                     <li><a class="navItems" href="<?php echo HOST; ?>profile">Profil</a></li>
                     <li><a class="navItems" href="<?php echo HOST; ?>index?action=deconnexion">Déconnexion</a></li>
                 </ul>
