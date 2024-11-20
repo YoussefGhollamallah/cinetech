@@ -15,6 +15,7 @@ class Routeur
         "serie" => ["controller" => "HomeController", "method" => "serie"],
         "detail" => ["controller" => "HomeController", "method" => "detail"],
         "profile" => ["controller" => "HomeController", "method" => "profile"],
+        "favori" => ["controller" => "HomeController", "method" => "favori"],
     ];
 
     public function __construct($request)
