@@ -32,41 +32,41 @@ $url = API_FILM_TENDANCE_URL;
     <title><?php echo $title ?? "Cinetech" ?></title>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <a href="<?php echo HOST; ?>">
-                <img src="<?php echo ASSETS; ?>picture/cinema.png" alt="logo">
-            </a>
-        </div>
-        <nav>
-
+<header>
+    <div class="logo">
+        <a href="<?php echo HOST; ?>">
+            <img src="<?php echo ASSETS; ?>picture/cinema.png" alt="logo">
+        </a>
+    </div>
+    <button id="burger" class="burger">☰</button>
+    <nav>
+        <ul class="navLink">
+            <li><a class="navItems" href="<?php echo HOST; ?>">Accueil</a></li>
+            <li><a class="navItems" href="<?php echo HOST; ?>film">Films</a></li>
+            <li><a class="navItems" href="<?php echo HOST; ?>serie">Série</a></li>
+        </ul>
+        <?php if (isset($_SESSION['user'])): ?>
             <ul class="navLink">
-                <li><a class="navItems" href="<?php echo HOST; ?>">Accueil</a></li>
-                <li><a class="navItems" href="<?php echo HOST; ?>film">Films</a></li>
-                <li><a class="navItems" href="<?php echo HOST; ?>serie">Série</a></li>
+                <li><a class="navItems" href="<?php echo HOST; ?>favori">Favoris</a></li>
+                <li><a class="navItems" href="<?php echo HOST; ?>profile">Profil</a></li>
+                <li><a class="navItems" href="<?php echo HOST; ?>index?action=deconnexion">Déconnexion</a></li>
             </ul>
-
-            <?php if (isset($_SESSION['user'])): ?>
-                <ul class="navLink">
-                    <li><a class="navItems" href="<?php echo HOST; ?>favori">Favoris</a></li>
-                    <li><a class="navItems" href="<?php echo HOST; ?>profile">Profil</a></li>
-                    <li><a class="navItems" href="<?php echo HOST; ?>index?action=deconnexion">Déconnexion</a></li>
-                </ul>
-            <?php else: ?>
-                <ul class="navLink">
-                    <li><a class="navItems" href="<?php echo HOST; ?>login">Connexion</a></li>
-                    <li><a class="navItems" href="<?php echo HOST; ?>register">Inscription</a></li>
-                </ul>
-            <?php endif; ?>
-
-        </nav>
-    </header>
+        <?php else: ?>
+            <ul class="navLink">
+                <li><a class="navItems" href="<?php echo HOST; ?>login">Connexion</a></li>
+                <li><a class="navItems" href="<?php echo HOST; ?>register">Inscription</a></li>
+            </ul>
+        <?php endif; ?>
+    </nav>
+</header>
 
     <h1>Bienvenue sur Cinetech</h1>
 
     <main>
         <?php echo $contentPage; ?>  
     </main>
+
+    <script src="<?php echo ASSETS; ?>js/burger.js"></script>
 
 </body>
 </html>
