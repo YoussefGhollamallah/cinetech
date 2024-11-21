@@ -337,36 +337,6 @@ textarea {
     cursor: pointer;
 }
 
-/* Masquer le menu par défaut sur mobile */
-nav {
-    display: none;
-    flex-direction: column;
-    background-color: rgba(0, 0, 0, 0.9);
-    position: absolute;
-    top: 100px;
-    right: 0;
-    left: 0;
-    z-index: 1000;
-    padding: 50px;
-    gap: 35px;
-}
-
-nav.active {
-    display: flex;
-}
-
-.navLink {
-    flex-direction: column;
-    align-items: center;
-    gap: 35px;
-}
-
-.navLink a {
-    width: 80%;
-    text-align: center;
-}
-
-
 /* media tablet */
 
 @media screen and (max-width: 1080px) {
@@ -427,5 +397,38 @@ nav.active {
     nav {
         display: none;
     }
+
+    
+/* Masquer le menu par défaut sur mobile */
+nav {
+    display: none;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0,0.8);
+    position: absolute;
+    top: 100px;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 50px;
+    gap: 35px;
+    height: calc(100vh - 100px);
+}
+
+nav.active {
+    display: flex;
+}
+
+.navLink {
+    flex-direction: column;
+    align-items: center;
+    gap: 35px;
+}
+
+.navLink a {
+    width: 80%;
+    text-align: center;
+}
+
+
 
 }
