@@ -30,3 +30,7 @@ Le site propose actuellement les fonctionnalités suivantes :
     * Ajouter et supprimer des commentaires dans la page détails d'un film ou séries.
     * Ajouter des film ou séries à ses favoris pour un accès rapide.
 
+Le site va proposé prochainement les fonctionnalités suivante :
+* La possibilité de rechercher un film et des séries grâce à une barre de recherche.
+* La possibilité de répondre à des commentaires d'autre utilisateurs.
+* De pouvoir noté un film ou une série et de voir la moyenne des notes.
