@@ -27,6 +27,7 @@ header {
     align-items: center;
     height: 150px;
     padding: 10px;
+    background-color: rgba(0, 0, 0, 0.8); /* Ajout pour une meilleure visibilité */
 }
 
 nav {
@@ -52,6 +53,70 @@ nav {
     border-radius: 5px;
 }
 
+/* Style de la barre de recherche */
+.search-bar {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+#searchInput:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Liste déroulante des résultats */
+#autocompleteList {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#autocompleteList li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#autocompleteList li img {
+    width: 50px;
+    height: 75px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+#autocompleteList li:hover {
+    background-color: #f0f0f0;
+}
+
+#autocompleteList li span {
+    font-size: 14px;
+    color: #333;
+}
+
 
 /* Centrage des boutons de navigation */
 .slider-buttons {
@@ -75,7 +140,6 @@ nav {
 .slider-buttons button:hover {
     background-color: #45a049;
 }
-
 
 main {
     display: flex;
@@ -131,7 +195,6 @@ main > h2 {
 #tv > div h2, #movie > div h2 {
     padding: 10px;
 }
-
 
 form {
     display: flex;
@@ -245,9 +308,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
     padding: 20px;
 }
 
-
 /* favori */
-
 #favori > ul {
     list-style: none;
     display: flex;
@@ -266,7 +327,6 @@ input[type="button"]:hover, input[type="submit"]:hover {
 }
 
 /* commentaire */
-
 .comment {
     display: flex;
     flex-direction: column;
@@ -286,7 +346,6 @@ input[type="button"]:hover, input[type="submit"]:hover {
     border-radius: 10px;
     margin-top: 10px;
 }
-
 
 button {
     padding: 10px 20px;
@@ -312,11 +371,11 @@ button:hover {
 }
 
 #add-comment button {
-margin-top: 20px;
+    margin-top: 20px;
 }
 
 textarea {
-    width:100%;
+    width: 100%;
     height: 150px;
     padding: 12px 20px;
     box-sizing: border-box;
@@ -325,7 +384,6 @@ textarea {
     background-color: #f8f8f8;
     font-size: 16px;
 }
-
 
 /* Styles pour le bouton burger */
 .burger {
@@ -338,7 +396,6 @@ textarea {
 }
 
 /* media tablet */
-
 @media screen and (max-width: 1080px) {
     #card-detail {
         display: flex;
@@ -347,8 +404,7 @@ textarea {
         padding: 20px;
     }
 
-    #img-detail
-    {
+    #img-detail {
         width: 90%;
     }
 
@@ -375,60 +431,32 @@ textarea {
         width: 90%;
     }
 
-    #add-comment form {
-        padding: 20px;
-    }
-
-    textarea {
-        width: 100%;
-        height: 150px;
-        padding: 12px 20px;
-        box-sizing: border-box;
-        border: 2px solid #ccc;
-        border-radius: 4px;
-        background-color: #f8f8f8;
-        font-size: 16px;
-    }
-
     .burger {
         display: block;
     }
 
     nav {
         display: none;
+        flex-direction: column;
+        background-color: rgba(0, 0, 0, 0.8);
+        position: absolute;
+        top: 100px;
+        left: 0;
+        width: 100%;
+        padding: 50px;
+        gap: 35px;
+        z-index: 1000;
     }
 
-    
-/* Masquer le menu par défaut sur mobile */
-nav {
-    display: none;
-    flex-direction: column;
-    background-color: rgba(0, 0, 0,0.8);
-    position: absolute;
-    top: 100px;
-    right: 0;
-    left: 0;
-    z-index: 1000;
-    padding: 50px;
-    gap: 35px;
-    height: calc(100vh - 100px);
-}
+    nav.active {
+        display: flex;
+    }
 
-nav.active {
-    display: flex;
-}
+    .navLink {
+        flex-direction: column;
+    }
 
-.navLink {
-    flex-direction: column;
-    align-items: center;
-    gap: 35px;
-}
-
-.navLink a {
-    width: 80%;
-    text-align: center;
-}
-
-
-
+    .logo {
+        display: none;
+    }
 }
