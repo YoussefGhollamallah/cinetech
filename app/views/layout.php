@@ -58,7 +58,14 @@ $url = API_FILM_TENDANCE_URL;
             </ul>
         <?php endif; ?>
     </nav>
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher...">
+    <ul id="autocompleteList"></ul>
+</div>
+
 </header>
+
 
     <h1>Bienvenue sur Cinetech</h1>
 
