@@ -20,7 +20,7 @@ git clone https://github.com/YoussefGhollamallah/cinetech.git
 mysql -u root -p cinetech < cinetech.sql
 ```
 
-*Note : Si vous avez défini un mot de passe oiyr MySQL, la commande devient:*
+*Note : Si vous avez défini un mot de passe pour MySQL, la commande devient:*
 ```
 mysql -u root -p votre_mot_passe cinetech < cinetech.sql
 ```
